@@ -60,7 +60,7 @@ Object.freeze(MORSE_CODE);
 
 function morse(text) {
   let outCome = '';
-  let start = 0;
+  let str = '';
 
 
   if(text === ''){return "";}
@@ -68,36 +68,29 @@ function morse(text) {
     throw('Please provide a morse string');
   }
   else{
-    text = text.trim(); // Remove all white spaces before and after strings
+    text = text.trim();
 
-    //Single letter or word
     if(text.indexOf(' ') === -1){return(MORSE_CODE[text]);}
 
-    if(text.indexOf(' ') > 0){
-      for(let i = 0; i < text.length; i++){
-
-        if(text[i] === ' ' && text[i - 1] === ' ' && text[i + 1] !== ' '){
-          outCome += MORSE_CODE[text.slice(start, i - 2)];
-          start = i + 1;
-          outCome += ' ';
+    text = text.replace(/   /g, '+');
+     for(let i = 0; i < text.length; i++){
+        if(text[i] !== ' ' && text[i] !== '+'){
+          str += text[i];
         }
-        else if(text[i] === ' ' && text[i + 1] !== ' '){
-
-          outCome += MORSE_CODE[text.slice(start, i)];
-          start = i + 1;
+        else if(text[i] === " "){
+          outCome += MORSE_CODE[str];
+          str = "";
         }
-
-
-
-        if(i === text.lastIndexOf(' ')){
-          outCome += MORSE_CODE[text.slice(i + 1)];
+        else if(text[i] = "+"){
+          outCome += MORSE_CODE[str] + " ";
+          str = "";
         }
-
-      }
-
-      return(outCome);
-
-    }
+        if(i === text.length - 1){
+          outCome += MORSE_CODE[str];
+        }
+     }
+     console.log(outCome);
+     return outCome;
 
   }
 
